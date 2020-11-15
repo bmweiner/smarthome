@@ -60,24 +60,30 @@ Launch app and configure Remote OZWDaemon to connect
 ### Docker-Compose Commands 
 
 Start
+
     docker-compose up -d
 
-Stop 
+Stop
+
     docker-compose down
 
 Restart
+
     docker-compose restart
 
 Update
+
     docker-compose pull
     docker-compose build
 
 ### Docker Commands
 
 Connect to container shell
+
     docker exec -it home-assistant /bin/sh
 
 Remove Containers and volumes
+
     docker rm -f $(docker ps -a -q)
     docker volume rm $(docker volume ls -q)
 
