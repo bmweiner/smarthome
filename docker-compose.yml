@@ -1,0 +1,42 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: home-assistant
+    image: homeassistant/home-assistant:stable
+    network_mode: host
+    volumes:
+      - ./local/homeassistant:/config
+      - ./local/homeassistant/configuration.yaml:/config/configuration.yaml
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB1:/dev/ttyUSB1
+    environment:
+      - TZ=America/New_York
+    restart: always
+  mosquitto:
+    container_name: eclipse-mosquitto
+    image: eclipse-mosquitto
+    network_mode: host
+    volumes:
+      - ./local/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./local/mosquitto/certs:/mosquitto/certs
+  openzwave:
+    container_name: openzwave
+    image: openzwave/ozwdaemon:latest
+    network_mode: host
+    volumes:
+      - ./local/openzwave:/opt/ozw/config
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    environment:
+      - MQTT_SERVER=localhost
+      - MQTT_PORT=8883
+      - MQTT_TLS=true
+      - USB_PATH=/dev/ttyUSB0
+      #- OZW_NETWORK_KEY=
+    security_opt:
+      - seccomp:unconfined
+    restart: unless-stopped
+
+# notes
+# volume symlink only works with files not directories

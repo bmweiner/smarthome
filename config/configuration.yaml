@@ -1,0 +1,28 @@
+# home assistant configuration
+
+# integrations 
+default_config:
+
+homeassistant:
+  name: Home
+  unit_system: imperial
+  time_zone: America/New_York
+
+mqtt:
+    broker: localhost
+    port: 8883
+    certificate: /config/certs/ca.crt
+    client_key: /config/certs/client.key
+    client_cert: /config/certs/client.crt
+
+tts:
+  - platform: google_translate
+
+logger:
+  default: warning
+
+# includes
+# group: !include groups.yaml
+# automation: !include automations.yaml
+# script: !include scripts.yaml
+# scene: !include scenes.yaml
