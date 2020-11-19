@@ -14,6 +14,8 @@ cp $base/local/certs/ca.crt ./local/homeassistant/certs/ca.crt
 cp $base/local/certs/client.crt ./local/homeassistant/certs/client.crt
 cp $base/local/certs/client.key ./local/homeassistant/certs/client.key
 
+cp $base/local/creds/secrets.yaml ./local/homeassistant/secrets.yaml
+
 # mosquitto
 mkdir -p ./local/mosquitto/config
 mkdir -p ./local/mosquitto/certs
@@ -24,5 +26,7 @@ cp $base/local/certs/ca.crt ./local/mosquitto/certs/ca.crt
 cp $base/local/certs/server.crt ./local/mosquitto/certs/server.crt
 cp $base/local/certs/server.key ./local/mosquitto/certs/server.key
 
-# openzwave
+cp $base/local/creds/passwd ./local/mosquitto/passwd
+
+# openzwave 
 mkdir -p ./local/openzwave

@@ -2,7 +2,7 @@
 cd $(dirname $0)
 
 sh ./fix-permissions.sh
-docker-compose down
+sh ./stop-docker.sh
 sh ./clear-docker.sh
 
 cd ..

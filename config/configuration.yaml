@@ -1,16 +1,17 @@
 # home assistant configuration
-
-# integrations 
-default_config:
-
 homeassistant:
   name: Home
   unit_system: imperial
   time_zone: America/New_York
 
+# integrations 
+default_config:
+
 mqtt:
     broker: localhost
     port: 8883
+    username: mqtt
+    password: !secret mqtt_password
     certificate: /config/certs/ca.crt
     client_key: /config/certs/client.key
     client_cert: /config/certs/client.crt
@@ -20,6 +21,8 @@ tts:
 
 logger:
   default: warning
+  logs:
+    homeassistant.components.mqtt: warning #debug
 
 # includes
 # group: !include groups.yaml

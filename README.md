@@ -3,8 +3,8 @@
 Setup scripts for a basic install and configuration of Home Assistant core on
 Raspberry Pi 4 Model B with a combination Z-Wave and Zigbee usb controller
 (HUSBZB-1). This setup installs docker images for Home Assistant, Eclipse
-Mosquitto, and Open Z-Wave. Open SSL is used to create certificates which enable
-SSL/TLS and certificate based authentication for Mosquitto.
+Mosquitto, and Open Z-Wave. Mosquitto authentication is performed over TLS with
+user name and password.
 
 ## Hardware Setup
 
@@ -32,7 +32,7 @@ Install software on the
  4. `sh ./setup.sh` to install and start software
  5. Login to Home assistant at `http://<host>:8123` and configure, if necessary
  6. Navigate to config > Integrations
- 7. Add OpenZWave (beta)
+ 7. Add OpenZWave (beta), select `/dev/ttyUSB0` as USB controller
  8. Add Zigbee Home Automation, select `/dev/ttyUSB1` as USB controller
  9. `sh ./scripts/fix-permissions.sh` to set volume permissions to non-root
 
@@ -81,6 +81,8 @@ Update
 Connect to container shell
 
     docker exec -it home-assistant /bin/sh
+    docker exec -it eclipse-mosquitto /bin/sh
+    docker exec -it openzwave /bin/sh
 
 Remove Containers and volumes
 
@@ -92,3 +94,11 @@ Remove Containers and volumes
 Any new intgrations must use configuration via the UI. Some integrations will
 be allowed in YAML, e.g. integration of transports.
 [Source](https://www.home-assistant.io/blog/2020/04/14/the-future-of-yaml/)
+
+### Certs
+The `./scripts/certs.sh` script will create certificates for CA, Server, and
+Client which can be used to enable SSL/TLS and certificate based authentication
+in Mosquitto. This is supported by `openzwave` docker image and the `MQTT` home
+assistant integration. However, it is not currently supported by 
+`OpenZWave (beta)` integration. Username and Password is used via TLS until
+certificate based authentication is supported by all components.

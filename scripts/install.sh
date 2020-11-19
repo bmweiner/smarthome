@@ -4,14 +4,17 @@ if [ "$USER" = "root" ]; then
   eval user=$SUDO_USER
 fi
 
-#update env
+# update env
 sudo apt-get update
 sudo apt-get upgrade -y
 
-#install openssl
+# install openssl
 sudo apt-get install -y openssl
 
-#install docker
+# install mosquitto locally
+sudo apt-get install -y mosquitto
+
+# install docker
 sudo apt-get install -y docker.io docker-compose
 sudo groupadd -f docker
 sudo usermod -aG docker $user

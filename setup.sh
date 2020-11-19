@@ -4,6 +4,6 @@ cd ./scripts
 
 sh ./install.sh
 sh ./certs.sh
+sh ./creds.sh
 sh ./volumes.sh
 sh ./start-docker.sh
-sh ./fix-permissions.sh
