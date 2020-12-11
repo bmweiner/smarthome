@@ -22,6 +22,7 @@ services:
       - ./local/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ./local/mosquitto/log:/mosquitto/log
       - ./local/mosquitto/certs:/mosquitto/certs
+    restart: always
   openzwave:
     container_name: openzwave
     image: openzwave/ozwdaemon:latest
@@ -39,7 +40,7 @@ services:
       - USB_PATH=/dev/ttyUSB0
     security_opt:
       - seccomp:unconfined
-    restart: unless-stopped
+    restart: always 
 
 # notes
 # volume symlink only works with files not directories

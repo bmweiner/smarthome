@@ -1,10 +1,13 @@
 # smarthome
 
-Setup scripts for a basic install and configuration of Home Assistant core on
+Setup scripts for install and configuration of Home Assistant core on
 Raspberry Pi 4 Model B with a combination Z-Wave and Zigbee usb controller
 (HUSBZB-1). This setup installs docker images for Home Assistant, Eclipse
 Mosquitto, and Open Z-Wave. Mosquitto authentication is performed over TLS with
 user name and password.
+
+Additional user specific configurations are set including customize, group,
+scene, and automation.
 
 ## Hardware Setup
 
@@ -102,3 +105,11 @@ in Mosquitto. This is supported by `openzwave` docker image and the `MQTT` home
 assistant integration. However, it is not currently supported by 
 `OpenZWave (beta)` integration. Username and Password is used via TLS until
 certificate based authentication is supported by all components.
+
+### OpenZWave
+[OpenZWave API](http://www.openzwave.com/dev/index.html)
+
+### Emulated Hue
+The Emulated Hue integration emulates a v1 hub. Ask Alexa to discover devices 
+to add lights and switches. It is not necessary to add the Philips Hue skill to
+Alexa, this only supports v2 hubs.

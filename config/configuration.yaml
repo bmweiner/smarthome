@@ -4,17 +4,41 @@ homeassistant:
   unit_system: imperial
   time_zone: America/New_York
 
+  customize:
+    light.bedroom_light:
+      friendly_name: Bedroom Light
+    switch.bedroom_floor_lamp:
+      friendly_name: Bedroom Floor Lamp
+    light.bathroom_light:
+      friendly_name: Bathroom Light
+    light.closet_light:
+      friendly_name: closet Light
+    light.counter_light:
+      friendly_name: Counter Light
+    light.entryway_light:
+      friendly_name: Entryway Light
+    light.hallway_light:
+      friendly_name: Hallway Light
+    light.living_room_light:
+      friendly_name: Living Room Light
+    switch.kitchen_light:
+      friendly_name: Kitchen Light
+
 # integrations 
 default_config:
 
 mqtt:
-    broker: localhost
-    port: 8883
-    username: mqtt
-    password: !secret mqtt_password
-    certificate: /config/certs/ca.crt
-    client_key: /config/certs/client.key
-    client_cert: /config/certs/client.crt
+  broker: localhost
+  port: 8883
+  username: mqtt
+  password: !secret mqtt_password
+  certificate: /config/certs/ca.crt
+  client_key: /config/certs/client.key
+  client_cert: /config/certs/client.crt
+
+# http:
+#   ssl_certificate: /config/certs/server.crt
+#   ssl_key: /config/certs/server.key
 
 tts:
   - platform: google_translate
@@ -24,8 +48,107 @@ logger:
   logs:
     homeassistant.components.mqtt: warning #debug
 
+emulated_hue:
+  listen_port: 80
+  expose_by_default: true
+  exposed_domains:
+    - light
+    - switch
+
 # includes
 # group: !include groups.yaml
 # automation: !include automations.yaml
 # script: !include scripts.yaml
 # scene: !include scenes.yaml
+
+group:
+  all_lights:
+    name: All Lights
+    entities:
+      - light.bedroom_light
+      - switch.bedroom_floor_lamp
+      - light.bathroom_light
+      - light.closet_light
+      - light.counter_light
+      - light.entryway_light
+      - light.hallway_light
+      - light.living_room_light
+      - switch.kitchen_light
+  day_lights:
+    name: Day Lights
+    entities:
+      - light.counter_light
+      - switch.kitchen_light
+  night_lights:
+    name: Night Lights
+    entities:
+      - light.counter_light
+      - light.living_room_light
+      - switch.kitchen_light
+  welcome_lights:
+    name: Welcome Lights
+    entities:
+      - light.bathroom_light
+      - light.bedroom_light
+      - switch.bedroom_floor_lamp
+      - light.counter_light
+      - light.entryway_light
+      - light.living_room_light
+      - switch.kitchen_light
+scene:
+  - name: hello
+    entities:
+      group.welcome_lights: "on"
+  - name: goodbye
+    entities:
+      group.all_lights: "off"
+
+automation:
+  - alias: bedroom_lights_on
+    trigger:
+      platform: state
+      entity_id: light.bedroom_light
+      to: "on"
+    action:
+      service: homeassistant.turn_on
+      entity_id: switch.bedroom_floor_lamp
+  - alias: bedroom_lights_off
+    trigger:
+      platform: state
+      entity_id: light.bedroom_light
+      to: "off"
+    action:
+      service: homeassistant.turn_off
+      entity_id: switch.bedroom_floor_lamp
+  - alias: trigger_hello
+    trigger:
+      platform: event
+      event_type: zha_event
+      event_data:
+        command: button_single
+    action:
+      scene: scene.hello
+  - alias: trigger_goodbye
+    trigger:
+      platform: event
+      event_type: zha_event
+      event_data:
+        command: button_double
+    action:
+      scene: scene.goodbye
+  - alias: closet_light_on
+    trigger:
+      platform: state
+      entity_id: binary_sensor.closet_open_sensor
+      to: "on"
+    action:
+      service: homeassistant.turn_on
+      entity_id: light.closet_light
+  - alias: closet_light_off
+    trigger:
+      platform: state
+      entity_id: binary_sensor.closet_open_sensor
+      to: "off"
+    action:
+      service: homeassistant.turn_off
+      entity_id: light.closet_light
