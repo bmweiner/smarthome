@@ -113,3 +113,6 @@ certificate based authentication is supported by all components.
 The Emulated Hue integration emulates a v1 hub. Ask Alexa to discover devices 
 to add lights and switches. It is not necessary to add the Philips Hue skill to
 Alexa, this only supports v2 hubs.
+
+### OZW Stream Buffer
+Experienced error: https://github.com/OpenZWave/qt-openzwave/issues/150
