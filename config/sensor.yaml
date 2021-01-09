@@ -1,0 +1,14 @@
+- platform: time_date
+  display_options:
+    - 'date'
+    
+- platform: template
+  sensors:
+    date_formatted:
+      friendly_name: "Date"
+      value_template: "{{ as_timestamp(states('sensor.date')) | timestamp_custom('%A %B %-d') }}"
+      icon_template: mdi:calendar
+    time_formatted:
+      friendly_name: "Time"
+      value_template: "{{ as_timestamp(now()) | timestamp_custom('%-I:%M %p') }}"
+      icon_template: mdi:clock

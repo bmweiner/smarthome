@@ -1,0 +1,75 @@
+# bedroom lights
+- alias: bedroom_lights_on
+  trigger:
+    platform: state
+    entity_id: light.bedroom_light
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.bedroom_floor_lamp
+
+- alias: bedroom_lights_off
+  trigger:
+    platform: state
+    entity_id: light.bedroom_light
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.bedroom_floor_lamp
+
+# entryway button
+- alias: trigger_hello
+  trigger:
+    platform: event
+    event_type: zha_event
+    event_data:
+      command: button_single
+  action:
+    - scene: scene.hello
+    - service: script.tts_greeting
+
+- alias: trigger_goodbye
+  trigger:
+    platform: event
+    event_type: zha_event
+    event_data:
+      command: button_double
+  action:
+    - service: script.tts_departure
+    - scene: scene.goodbye
+
+# closet light
+- alias: closet_light_on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.closet_open_sensor
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.closet_light
+
+- alias: closet_light_off
+  trigger:
+    platform: state
+    entity_id: binary_sensor.closet_open_sensor
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.closet_light
+
+# printer
+- alias: printer_on
+  trigger:
+    platform: time
+    at: '08:00:00'
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.printer_switch
+
+- alias: printer_off
+  trigger:
+    platform: time
+    at: '21:00:00'
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.printer_switch

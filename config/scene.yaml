@@ -1,0 +1,37 @@
+- name: hello
+  icon: "mdi:home-account"
+  entities:
+    group.welcome_lights: "on"
+
+- name: goodbye
+  icon: "hass:car"
+  entities:
+    group.all_lights: "off"
+
+- name: daytime
+  icon: "mdi:sunglasses"
+  entities:
+    light.bedroom_light: "off"
+    switch.bedroom_floor_lamp: "off"
+    light.bathroom_light: "off"
+    light.closet_light: "off"
+    light.counter_light: "on"
+    light.entryway_light: "off"
+    light.hallway_light: "off"
+    light.living_room_light: "off"
+    light.kitchen_light: "on"
+    light.bar_light: "off"
+    
+- name: nightime
+  icon: "mdi:weather-night"
+  entities:
+    light.bedroom_light: "off"
+    switch.bedroom_floor_lamp: "off"
+    light.bathroom_light: "off"
+    light.closet_light: "off"
+    light.counter_light: "on"
+    light.entryway_light: "off"
+    light.hallway_light: "off"
+    light.living_room_light: "on"
+    light.kitchen_light: "on"
+    light.bar_light: "on"

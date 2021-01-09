@@ -1,0 +1,24 @@
+all_lights:
+  name: All Lights
+  entities:
+    - light.bedroom_light
+    - switch.bedroom_floor_lamp
+    - light.bathroom_light
+    - light.closet_light
+    - light.counter_light
+    - light.entryway_light
+    - light.hallway_light
+    - light.living_room_light
+    - light.kitchen_light
+    - light.bar_light
+    
+welcome_lights:
+  name: Welcome Lights
+  entities:
+    - light.bathroom_light
+    - light.bedroom_light
+    - switch.bedroom_floor_lamp
+    - light.counter_light
+    - light.entryway_light
+    - light.living_room_light
+    - light.kitchen_light

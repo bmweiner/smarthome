@@ -3,52 +3,27 @@ homeassistant:
   name: Home
   unit_system: imperial
   time_zone: America/New_York
-  customize:
-    light.bedroom_light:
-      friendly_name: Bedroom Light
-    switch.bedroom_floor_lamp:
-      friendly_name: Bedroom Floor Lamp
-    light.bathroom_light:
-      friendly_name: Bathroom Light
-    light.closet_light:
-      friendly_name: Closet Light
-    light.counter_light:
-      friendly_name: Counter Light
-    light.entryway_light:
-      friendly_name: Entryway Light
-    light.hallway_light:
-      friendly_name: Hallway Light
-    light.living_room_light:
-      friendly_name: Living Room Light
-    light.kitchen_light:
-      friendly_name: Kitchen Light
-    light.bar_light:
-      friendly_name: Bar Light
-    light.printer_switch:
-      friendly_name: Printer
-    binary_sensor.kitchen_water_sensor:
-        friendly_name: Kitchen Water Sensor
-    binary_sensor.laundry_water_sensor:
-      friendly_name: Laundry Water Sensor
-
-sensor:
-  - platform: time_date
-    display_options:
-      - 'date'
-  - platform: template
-    sensors:
-      date_formatted:
-        friendly_name: "Date"
-        value_template: "{{ as_timestamp(states('sensor.date')) | timestamp_custom('%A %B %-d') }}"
-        icon_template: mdi:calendar-clock
-
-# alarm
-alarm_control_panel:
-  - platform: manual
-    name: Home Alarm
+  customize: !include customize.yaml
 
 # integrations 
 default_config:
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.mqtt: warning
+    homeassistant.components.zha: warning
+
+# http:
+#   ssl_certificate: /config/certs/server.crt
+#   ssl_key: /config/certs/server.key
+
+tts:
+  - platform: google_translate
+
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
 
 mqtt:
   broker: localhost
@@ -59,19 +34,6 @@ mqtt:
   client_key: /config/certs/client.key
   client_cert: /config/certs/client.crt
 
-# http:
-#   ssl_certificate: /config/certs/server.crt
-#   ssl_key: /config/certs/server.key
-
-tts:
-  - platform: google_translate
-
-logger:
-  default: info
-  logs:
-    homeassistant.components.mqtt: warning
-    homeassistant.components.zha: warning
-
 emulated_hue:
   listen_port: 80
   expose_by_default: true
@@ -79,173 +41,20 @@ emulated_hue:
     - light
     - switch
 
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+  project_id: !secret nest_project_id
+  subscriber_id: !secret nest_subscriber_id
+
+august:
+  login_method: !secret august_login_method
+  username: !secret august_username
+  password: !secret august_password
+
 # includes
-# group: !include groups.yaml
-# automation: !include automations.yaml
-# script: !include scripts.yaml
-# scene: !include scenes.yaml
-
-group:
-  all_lights:
-    name: All Lights
-    entities:
-      - light.bedroom_light
-      - switch.bedroom_floor_lamp
-      - light.bathroom_light
-      - light.closet_light
-      - light.counter_light
-      - light.entryway_light
-      - light.hallway_light
-      - light.living_room_light
-      - light.kitchen_light
-      - light.bar_light
-  welcome_lights:
-    name: Welcome Lights
-    entities:
-      - light.bathroom_light
-      - light.bedroom_light
-      - switch.bedroom_floor_lamp
-      - light.counter_light
-      - light.entryway_light
-      - light.living_room_light
-      - light.kitchen_light
-scene:
-  - name: hello
-    icon: "mdi:home-account"
-    entities:
-      group.welcome_lights: "on"
-  - name: goodbye
-    icon: "hass:car"
-    entities:
-      group.all_lights: "off"
-  - name: daytime
-    icon: "mdi:sunglasses"
-    entities:
-      light.bedroom_light: "off"
-      switch.bedroom_floor_lamp: "off"
-      light.bathroom_light: "off"
-      light.closet_light: "off"
-      light.counter_light: "on"
-      light.entryway_light: "off"
-      light.hallway_light: "off"
-      light.living_room_light: "off"
-      light.kitchen_light: "on"
-      light.bar_light: "off"
-  - name: nightime
-    icon: "mdi:weather-night"
-    entities:
-      light.bedroom_light: "off"
-      switch.bedroom_floor_lamp: "off"
-      light.bathroom_light: "off"
-      light.closet_light: "off"
-      light.counter_light: "on"
-      light.entryway_light: "off"
-      light.hallway_light: "off"
-      light.living_room_light: "on"
-      light.kitchen_light: "on"
-      light.bar_light: "on"
-
-automation:
-  - alias: bedroom_lights_on
-    trigger:
-      platform: state
-      entity_id: light.bedroom_light
-      to: "on"
-    action:
-      service: homeassistant.turn_on
-      entity_id: switch.bedroom_floor_lamp
-  - alias: bedroom_lights_off
-    trigger:
-      platform: state
-      entity_id: light.bedroom_light
-      to: "off"
-    action:
-      service: homeassistant.turn_off
-      entity_id: switch.bedroom_floor_lamp
-  - alias: trigger_hello
-    trigger:
-      platform: event
-      event_type: zha_event
-      event_data:
-        command: button_single
-    action:
-      - scene: scene.hello
-      - service: script.tts_greeting
-  - alias: trigger_goodbye
-    trigger:
-      platform: event
-      event_type: zha_event
-      event_data:
-        command: button_double
-    action:
-      - service: script.tts_departure
-      - scene: scene.goodbye
-  - alias: closet_light_on
-    trigger:
-      platform: state
-      entity_id: binary_sensor.closet_open_sensor
-      to: "on"
-    action:
-      service: homeassistant.turn_on
-      entity_id: light.closet_light
-  - alias: closet_light_off
-    trigger:
-      platform: state
-      entity_id: binary_sensor.closet_open_sensor
-      to: "off"
-    action:
-      service: homeassistant.turn_off
-      entity_id: light.closet_light
-  - alias: printer_on
-    trigger:
-      platform: time
-      at: '08:00:00'
-    action:
-      service: homeassistant.turn_on
-      entity_id: light.printer_switch
-  - alias: printer_off
-    trigger:
-      platform: time
-      at: '21:00:00'
-    action:
-      service: homeassistant.turn_off
-      entity_id: light.printer_switch
-
-script:
-  tts_greeting:
-    alias: TTS Greeting
-    sequence:
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.living_room
-        volume_level: 0.3
-    - service: tts.google_translate_say
-      data:
-        entity_id: media_player.living_room
-        message: >
-          {% set t = now().strftime("%-I, %-M, %p") %}        
-          {% set d = now().strftime("%A, %B %-dth") %}
-          {% set h = now().strftime("%H")|int %}
-          {% if h < 12 %} Good Morning. 
-          {% elif h < 18 %} Good Afternoon. 
-          {% else %} Good Evening.
-          {% endif %}
-          The time is, 
-          {{ t }}, on 
-          {{ d }},
-          it is currently {{states('weather.home')}} and 
-          {{state_attr('weather.home', 'temperature')}} degrees.
-    mode: single
-  tts_departure:
-    alias: TTS Departure
-    sequence:
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.living_room
-        volume_level: 0.3
-    - service: tts.google_translate_say
-      data:
-        entity_id: media_player.living_room
-        message: >
-          Goodbye. Get  some!
-    mode: single
+sensor: !include sensor.yaml
+group: !include group.yaml
+scene: !include scene.yaml
+automation: !include automation.yaml
+script: !include script.yaml

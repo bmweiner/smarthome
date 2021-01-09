@@ -9,6 +9,12 @@ mkdir -p ./local/homeassistant
 mkdir -p ./local/homeassistant/certs
 
 ln -sf $base/config/configuration.yaml ./local/homeassistant/configuration.yaml
+ln -sf $base/config/automation.yaml ./local/homeassistant/automation.yaml
+ln -sf $base/config/customize.yaml ./local/homeassistant/customize.yaml
+ln -sf $base/config/group.yaml ./local/homeassistant/group.yaml
+ln -sf $base/config/scene.yaml ./local/homeassistant/scene.yaml
+ln -sf $base/config/script.yaml ./local/homeassistant/script.yaml
+ln -sf $base/config/sensor.yaml ./local/homeassistant/sensor.yaml
 
 cp $base/local/certs/ca.crt ./local/homeassistant/certs/ca.crt
 cp $base/local/certs/client.crt ./local/homeassistant/certs/client.crt

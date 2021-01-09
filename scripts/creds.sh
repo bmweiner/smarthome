@@ -19,7 +19,15 @@ echo $usn:$pwd > passwd
 mosquitto_passwd -U passwd
 
 # home assistant secrets file
+# requires manual edit to include secrets
 echo mqtt_password: $pwd > secrets.yaml
+echo nest_client_id: >> secrets.yaml
+echo nest_client_secret: >> secrets.yaml
+echo nest_project_id: >> secrets.yaml
+echo nest_subscriber_id: >> secrets.yaml
+echo august_login_method: >> secrets.yaml
+echo august_username: >> secrets.yaml
+echo august_password: >> secrets.yaml
 
 # check if docker is running
 if docker inspect eclipse-mosquitto | grep "Running" >/dev/null
@@ -29,4 +37,3 @@ fi
 
 # extract existing password
 #cat secrets.env | grep '^MQTT_PASSWORD=.*$' | cut -d'=' -f 2
-
