@@ -25,6 +25,28 @@ alarm_control_panel:
   - platform: manual
     name: Home Alarm
 
+notify:
+  - name: mail
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    encryption: starttls
+    username: !secret notify_mail_username
+    password: !secret notify_mail_password
+    sender: !secret notify_mail_sender
+    recipient: !secret notify_mail_recipient
+    sender_name: Home Notification
+  - name: sms
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    encryption: starttls
+    username: !secret notify_mail_username
+    password: !secret notify_mail_password
+    sender: !secret notify_mail_sender
+    recipient: !secret notify_sms_recipient
+    sender_name: Home Notification
+
 mqtt:
   broker: localhost
   port: 8883
