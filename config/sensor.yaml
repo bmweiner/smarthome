@@ -1,6 +1,8 @@
 - platform: time_date
   display_options:
+    - 'time'
     - 'date'
+    - 'date_time'
     
 - platform: template
   sensors:
@@ -10,5 +12,5 @@
       icon_template: mdi:calendar
     time_formatted:
       friendly_name: "Time"
-      value_template: "{{ as_timestamp(now()) | timestamp_custom('%-I:%M %p') }}"
+      value_template: "{{ as_local(states.sensor.time.last_updated).timestamp() | timestamp_custom('%-I:%M %p') }}"
       icon_template: mdi:clock
