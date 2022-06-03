@@ -28,6 +28,11 @@ echo nest_subscriber_id: >> secrets.yaml
 echo august_login_method: >> secrets.yaml
 echo august_username: >> secrets.yaml
 echo august_password: >> secrets.yaml
+echo notify_mail_username: >> secrets.yaml
+echo notify_mail_password: >> secrets.yaml
+echo notify_mail_sender: >> secrets.yaml
+echo notify_mail_recipient: >> secrets.yaml
+echo notify_sms_recipient: >> secrets.yaml
 
 # check if docker is running
 if docker inspect eclipse-mosquitto | grep "Running" >/dev/null
