@@ -3,6 +3,7 @@ all_lights:
   entities:
     - light.bedroom_light
     - switch.bedroom_floor_lamp
+    - light.headboard_light
     - light.bathroom_light
     - light.closet_light
     - light.counter_light

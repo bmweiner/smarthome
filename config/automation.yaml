@@ -111,7 +111,7 @@
 - alias: printer_on
   trigger:
     platform: time
-    at: '08:00:00'
+    at: '09:00:00'
   action:
     service: homeassistant.turn_on
     entity_id: light.printer_switch
@@ -123,6 +123,31 @@
   action:
     service: homeassistant.turn_off
     entity_id: light.printer_switch
+
+# coffee
+- alias: coffee_on
+  trigger:
+    platform: time
+    at: '07:00:00'
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.coffee_switch
+
+- alias: coffee_off_morning
+  trigger:
+    platform: time
+    at: '10:00:00'
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.coffee_switch
+
+- alias: coffee_off_night
+  trigger:
+    platform: time
+    at: '18:00:00'
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.coffee_switch
 
 # water sensors
 - alias: kitchen_water
