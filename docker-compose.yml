@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   homeassistant:
     container_name: home-assistant
     image: homeassistant/home-assistant:stable
@@ -19,6 +20,7 @@ services:
     environment:
       - TZ=America/New_York
     restart: always
+
   mosquitto:
     container_name: eclipse-mosquitto
     image: eclipse-mosquitto
@@ -29,24 +31,21 @@ services:
       - ./local/mosquitto/log:/mosquitto/log
       - ./local/mosquitto/certs:/mosquitto/certs
     restart: always
-  openzwave:
-    container_name: openzwave
-    image: openzwave/ozwdaemon:latest
+
+  zwavejs2mqtt:
+    container_name: zwavejs2mqtt
+    image: zwavejs/zwavejs2mqtt:latest
     network_mode: host
-    volumes:
-      - ./local/openzwave:/opt/ozw/config
+    tty: true
+    stop_signal: SIGINT
     devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-    env_file:
-      - ./local/creds/secrets.env
-    environment:
-      - MQTT_SERVER=localhost
-      - MQTT_PORT=8883
-      - MQTT_TLS=true
-      - USB_PATH=/dev/ttyUSB0
-    security_opt:
-      - seccomp:unconfined
-    restart: always 
+      - '/dev/ttyUSB0:/dev/ttyUSB0'
+    volumes:
+      - ./local/zwavejs2mqtt:/usr/src/app/store
+    ports:
+      - '8091:8091' # port for web interface
+      - '3000:3000' # port for zwave-js websocket server
+    restart: always
 
 # notes
 # volume symlink only works with files not directories

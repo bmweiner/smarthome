@@ -34,5 +34,5 @@ cp $base/local/certs/server.key ./local/mosquitto/certs/server.key
 
 cp $base/local/creds/passwd ./local/mosquitto/passwd
 
-# openzwave 
-mkdir -p ./local/openzwave
+# zwavejs2mqtt
+mkdir -p ./local/zwavejs2mqtt

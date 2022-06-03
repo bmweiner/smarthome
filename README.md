@@ -27,18 +27,26 @@ Install Ubuntu Server on an SD card and configure SSH.
 
 ## Software Setup
 
-Install software on the 
+Install software
 
  1. `ssh pi`
  2. Clone `smarthome` repo
  3. (optional) restore home assistant config, see `Backup and Restore` section
  4. `sh ./setup.sh` to install and start software
- 5. Login to Home assistant at `http://<host>:8123` and configure, if necessary
- 6. Navigate to config > Integrations
- 7. Add OpenZWave (beta), select `/dev/ttyUSB0` as USB controller
- 8. Add Zigbee Home Automation, select `/dev/ttyUSB1` as USB controller
- 9. `sh ./scripts/fix-permissions.sh` to set volume permissions to non-root
 
+Configure ZWaveJS2MQTT
+ 1. Navigate to `http://<host>:8091` and select settings
+ 2. Set ZWave > Zwave Serial Port to `/dev/ttyUSB0`
+ 3. Set ZWave > Network Key (if applicable)
+ 4. Set Home Assistant > enable WS Server
+ 5. Save settings 
+
+Configure Home Assistant
+ 1. Login to Home assistant at `http://<host>:8123` and configure prompts
+ 2. Navigate to config > Integrations
+ 3. Add Z-Wave JS, select `ws://localhost:3000` as server
+ 4. Add Zigbee Home Automation, select `/dev/ttyUSB1` as USB controller
+ 
 ## Backup and Restore
 
 Home assistant settings are stored in the docker container under `/config`. This
@@ -87,7 +95,7 @@ Connect to container shell
 
     docker exec -it home-assistant /bin/sh
     docker exec -it eclipse-mosquitto /bin/sh
-    docker exec -it openzwave /bin/sh
+    docker exec -it zwavejs2mqtt /bin/sh
 
 Remove Containers and volumes
 

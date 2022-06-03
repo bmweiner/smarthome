@@ -6,4 +6,5 @@ sh ./install.sh
 sh ./certs.sh
 sh ./creds.sh
 sh ./volumes.sh
+sh ./cleanup.sh
 sh ./start-docker.sh
