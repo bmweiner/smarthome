@@ -46,3 +46,7 @@ sensor.kitchen_temperature:
   friendly_name: Kitchen Temperature
 sensor.laundry_temperature:
   friendly_name: Laundry Temperature
+
+cover.patio_blinds:
+  friendly_name: Patio Blinds
+  
