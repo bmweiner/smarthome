@@ -39,7 +39,7 @@ services:
     tty: true
     stop_signal: SIGINT
     devices:
-      - '/dev/ttyUSB0:/dev/ttyUSB0'
+      - '/dev/serial/by-id/usb-Silicon_Labs_HubZ_Smart_Home_Controller_314002FD-if00-port0:/dev/zwave'
     volumes:
       - ./local/zwavejs2mqtt:/usr/src/app/store
     ports:
