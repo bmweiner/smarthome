@@ -3,7 +3,7 @@
 Setup scripts for install and configuration of Home Assistant core on
 Raspberry Pi 4 Model B with a combination Z-Wave and Zigbee usb controller
 (HUSBZB-1). This setup installs docker images for Home Assistant, Eclipse
-Mosquitto, and Open Z-Wave. Mosquitto authentication is performed over TLS with
+Mosquitto, and zwavejs2mqtt. Mosquitto authentication is performed over TLS with
 user name and password.
 
 Additional user specific configurations are set including customize, group,
@@ -36,7 +36,7 @@ Install software
 
 Configure ZWaveJS2MQTT
  1. Navigate to `http://<host>:8091` and select settings
- 2. Set ZWave > Zwave Serial Port to `/dev/ttyUSB0`
+ 2. Set ZWave > Zwave Serial Port to `/dev/zwave`
  3. Set ZWave > Network Key (if applicable)
  4. Set Home Assistant > enable WS Server
  5. Save settings 
@@ -58,15 +58,6 @@ These scripts should be executed from the backup machine where the ha ssh config
 containing the ha Host settings and identity file are stored.
 
 ## Notes
-
-### Open Z-Wave GUI
-Open Z-Wave provides a desktop GUI to configure devices:
-[Open Z-Wave Desktop GUI](https://github.com/OpenZWave/ozw-admin)
-
-Launch app and configure Remote OZWDaemon to connect
- * Remote Host: <host>
- * Port: 8883 or 1983
- * Authentication Key: robot/local/certs/?
 
 ### Docker-Compose Commands 
 
@@ -108,21 +99,7 @@ Any new intgrations must use configuration via the UI. Some integrations will
 be allowed in YAML, e.g. integration of transports.
 [Source](https://www.home-assistant.io/blog/2020/04/14/the-future-of-yaml/)
 
-### Certs
-The `./scripts/certs.sh` script will create certificates for CA, Server, and
-Client which can be used to enable SSL/TLS and certificate based authentication
-in Mosquitto. This is supported by `openzwave` docker image and the `MQTT` home
-assistant integration. However, it is not currently supported by 
-`OpenZWave (beta)` integration. Username and Password is used via TLS until
-certificate based authentication is supported by all components.
-
-### OpenZWave
-[OpenZWave API](http://www.openzwave.com/dev/index.html)
-
 ### Emulated Hue
 The Emulated Hue integration emulates a v1 hub. Ask Alexa to discover devices 
 to add lights and switches. It is not necessary to add the Philips Hue skill to
 Alexa, this only supports v2 hubs.
-
-### OZW Stream Buffer
-Experienced error: https://github.com/OpenZWave/qt-openzwave/issues/150
