@@ -21,3 +21,7 @@ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out s
 openssl genrsa -out client.key
 openssl req -new -key client.key -out client.csr -subj "/C=US/ST=state/L=city/O=client/OU=client/CN=$client"
 openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 3650
+
+
+# references
+# https://mosquitto.org/man/mosquitto-tls-7.html
