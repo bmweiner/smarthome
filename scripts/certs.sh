@@ -25,3 +25,7 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out c
 
 # references
 # https://mosquitto.org/man/mosquitto-tls-7.html
+# when publishing to the server over TLS, mosquitto_pub hostname must match the
+# server CN. Since the CN=localhost, only local connections to the server are
+# possible over TLS. To connect remotely, create the certificate with the
+# reachable CN hostname or use --insecure in mosquitto_pub.
