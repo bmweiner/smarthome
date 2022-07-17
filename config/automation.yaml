@@ -179,3 +179,13 @@
       data:
         title: ""
         message: "Water Detected in Laundry"
+
+# living room light
+- alias: living_room_light_off
+  trigger:
+    platform: mqtt
+    topic: "remote/living_room_light"
+    payload: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.living_room_light
