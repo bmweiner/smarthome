@@ -189,3 +189,11 @@
   action:
     service: homeassistant.turn_off
     entity_id: light.living_room_light
+
+# clear tts cache
+- alias: clear_tts
+  trigger:
+    platform: time
+    at: "00:00:00"
+  action:
+    service: tts.clear_cache
