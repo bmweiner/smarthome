@@ -181,13 +181,13 @@
         message: "Water Detected in Laundry"
 
 # living room light
-- alias: living_room_light_off
+- alias: living_room_light_toggle
   trigger:
     platform: mqtt
     topic: "remote/living_room_light"
-    payload: "off"
+    payload: "toggle"
   action:
-    service: homeassistant.turn_off
+    service: homeassistant.toggle
     entity_id: light.living_room_light
 
 # clear tts cache
