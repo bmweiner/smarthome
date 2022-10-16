@@ -14,3 +14,7 @@
       friendly_name: "Time"
       value_template: "{{ as_local(states.sensor.time.last_updated).timestamp() | timestamp_custom('%-I:%M %p') }}"
       icon_template: mdi:clock
+
+- platform: command_line
+  command: "python3 /config/python_scripts/wiki_today.py"
+  name: wiki_today

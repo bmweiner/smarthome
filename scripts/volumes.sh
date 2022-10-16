@@ -7,6 +7,7 @@ sh ./scripts/fix-permissions.sh
 # homeassistant
 mkdir -p ./local/homeassistant
 mkdir -p ./local/homeassistant/certs
+mkdir -p ./local/homeassistant/python_scripts
 
 ln -sf $base/config/configuration.yaml ./local/homeassistant/configuration.yaml
 ln -sf $base/config/automation.yaml ./local/homeassistant/automation.yaml
@@ -15,6 +16,7 @@ ln -sf $base/config/group.yaml ./local/homeassistant/group.yaml
 ln -sf $base/config/scene.yaml ./local/homeassistant/scene.yaml
 ln -sf $base/config/script.yaml ./local/homeassistant/script.yaml
 ln -sf $base/config/sensor.yaml ./local/homeassistant/sensor.yaml
+ln $base/config/python_scripts/wiki_today.py ./local/homeassistant/python_scripts/wiki_today.py
 
 cp $base/local/certs/ca.crt ./local/homeassistant/certs/ca.crt
 cp $base/local/certs/client.crt ./local/homeassistant/certs/client.crt

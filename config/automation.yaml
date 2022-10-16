@@ -180,7 +180,7 @@
         title: ""
         message: "Water Detected in Laundry"
 
-# living room light
+# mqtt remote
 - alias: living_room_light_toggle
   trigger:
     platform: mqtt
@@ -189,6 +189,41 @@
   action:
     service: homeassistant.toggle
     entity_id: light.living_room_light
+
+- alias: living_room_light_dim
+  trigger:
+    platform: mqtt
+    topic: "remote/living_room_light"
+    payload: "dim"
+  action:
+    choose:
+      # if > 254 (max 255)
+      conditions:
+        condition: numeric_state
+        entity_id: light.living_room_light
+        attribute: brightness
+        above: 254
+      sequence:
+        data:
+          entity_id: light.living_room_light
+          brightness_pct: 25
+        service: light.turn_on
+    default:
+      data:
+        entity_id: light.living_room_light
+        brightness_pct: 100
+      service: light.turn_on
+
+- alias: tts_wiki_today
+  trigger:
+    platform: mqtt
+    topic: "remote/tts"
+    payload: "wiki_today"
+  action:
+    service: tts.google_translate_say
+    data:
+      entity_id: media_player.living_room
+      message: "{{ states( 'sensor.wiki_today' ) }}"
 
 # clear tts cache
 - alias: clear_tts
