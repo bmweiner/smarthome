@@ -17,4 +17,10 @@
 
 - platform: command_line
   command: "python3 /config/python_scripts/wiki_today.py"
+  scan_interval: 86400
   name: wiki_today
+
+- platform: command_line
+  command: "python3 /config/python_scripts/woa.py"
+  scan_interval: 86400
+  name: woa

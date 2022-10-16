@@ -220,10 +220,27 @@
     topic: "remote/tts"
     payload: "wiki_today"
   action:
-    service: tts.google_translate_say
-    data:
-      entity_id: media_player.living_room
-      message: "{{ states( 'sensor.wiki_today' ) }}"
+    - service: homeassistant.update_entity
+      data:
+        entity_id: sensor.wiki_today
+    - service: tts.google_translate_say
+      data:
+        entity_id: media_player.living_room
+        message: "{{ states( 'sensor.wiki_today' ) }}"
+      
+- alias: tts_woa
+  trigger:
+    platform: mqtt
+    topic: "remote/tts"
+    payload: "woa"
+  action:
+    - service: homeassistant.update_entity
+      data:
+        entity_id: sensor.woa
+    - service: tts.google_translate_say
+      data:
+        entity_id: media_player.living_room
+        message: "{{ states( 'sensor.woa' ) }}"
 
 # clear tts cache
 - alias: clear_tts
