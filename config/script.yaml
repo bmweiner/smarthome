@@ -1,38 +1,30 @@
-tts_greeting:
-  alias: TTS Greeting
+tts_sonos:
+  alias: TTS and Resume (sonos)
   sequence:
-  - service: media_player.volume_set
-    data_template:
-      entity_id: media_player.living_room
-      volume_level: 0.3
-  - service: tts.google_translate_say
-    data:
-      entity_id: media_player.living_room
-      message: >
-        {% set t = now().strftime("%I:%M %p") %}        
-        {% set d = now().strftime("%A, %B %-d") %}
-        {% set h = now().strftime("%H")|int %}
-        {% if h < 12 %} Good Morning. 
-        {% elif h < 18 %} Good Afternoon. 
-        {% else %} Good Evening.
-        {% endif %}
-        The time is, 
-        {{ t }}, on 
-        {{ d }},
-        it is currently {{states('weather.home')}} and 
-        {{state_attr('weather.home', 'temperature')}} degrees.
-  mode: single
-
-tts_departure:
-  alias: TTS Departure
-  sequence:
-  - service: media_player.volume_set
-    data_template:
-      entity_id: media_player.living_room
-      volume_level: 0.3
-  - service: tts.google_translate_say
-    data:
-      entity_id: media_player.living_room
-      message: >
-        Goodbye. Get  some!
+    - service: sonos.snapshot
+      data:
+        entity_id: '{{ tts_entity }}'
+        with_group: true
+    - service: media_player.volume_set
+      data:
+        entity_id: '{{ tts_entity }}'
+        volume_level: 0.35
+    - service: tts.google_translate_say
+      data:
+        entity_id: '{{ tts_entity }}'
+        message: '{{ message }}'
+    - delay: 1
+    - alias: Wait until media player is paused
+      wait_template: '{{ is_state(tts_entity, ''paused'') }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: '{{ tts_entity }}'
+        volume_level: '{{ mediaplayer_volume_level }}'
+    - service: sonos.restore
+      data:
+        entity_id: '{{ tts_entity }}'
+        with_group: true
+  icon: mdi:text-to-speech
+  variables:
+    mediaplayer_volume_level: '{{ state_attr(tts_entity,''volume_level'') }}'
   mode: single
