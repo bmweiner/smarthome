@@ -60,14 +60,14 @@ notify:
     recipient: !secret notify_sms_recipient
     sender_name: Home Notification
 
-mqtt:
-  broker: localhost
-  port: 8883
-  username: mqtt
-  password: !secret mqtt_password
-  certificate: /config/certs/ca.crt
-  client_key: /config/certs/client.key
-  client_cert: /config/certs/client.crt
+# mqtt:
+#   broker: localhost
+#   port: 8883
+#   username: mqtt
+#   password: !secret mqtt_password
+#   certificate: /config/certs/ca.crt
+#   client_key: /config/certs/client.key
+#   client_cert: /config/certs/client.crt
 
 emulated_hue:
   listen_port: 80
