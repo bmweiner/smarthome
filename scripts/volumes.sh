@@ -18,6 +18,7 @@ ln -sf $base/config/script.yaml ./local/homeassistant/script.yaml
 ln -sf $base/config/sensor.yaml ./local/homeassistant/sensor.yaml
 ln $base/config/python_scripts/wiki_today.py ./local/homeassistant/python_scripts/wiki_today.py
 ln $base/config/python_scripts/woa.py ./local/homeassistant/python_scripts/woa.py
+ln $base/config/python_scripts/bikes.py ./local/homeassistant/python_scripts/bikes.py
 
 cp $base/local/certs/ca.crt ./local/homeassistant/certs/ca.crt
 cp $base/local/certs/client.crt ./local/homeassistant/certs/client.crt

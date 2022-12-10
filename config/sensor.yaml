@@ -24,3 +24,13 @@
   command: "python3 /config/python_scripts/woa.py"
   scan_interval: 86400
   name: woa
+
+- platform: command_line
+  command: "python3 /config/python_scripts/bikes.py"
+  scan_interval: 300
+  json_attributes:
+    - "1"
+    - "2"
+    - "3"
+    - "4"
+  name: bikes
