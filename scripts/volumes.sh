@@ -8,6 +8,8 @@ sh ./scripts/fix-permissions.sh
 mkdir -p ./local/homeassistant
 mkdir -p ./local/homeassistant/certs
 mkdir -p ./local/homeassistant/python_scripts
+mkdir -p ./local/homeassistant/www
+mkdir -p ./local/homeassistant/dashboards
 
 ln -sf $base/config/configuration.yaml ./local/homeassistant/configuration.yaml
 ln -sf $base/config/automation.yaml ./local/homeassistant/automation.yaml
@@ -19,6 +21,9 @@ ln -sf $base/config/sensor.yaml ./local/homeassistant/sensor.yaml
 ln $base/config/python_scripts/wiki_today.py ./local/homeassistant/python_scripts/wiki_today.py
 ln $base/config/python_scripts/woa.py ./local/homeassistant/python_scripts/woa.py
 ln $base/config/python_scripts/bikes.py ./local/homeassistant/python_scripts/bikes.py
+ln $base/config/www/card-mod.js ./local/homeassistant/www/card-mod.js
+ln $base/config/www/layout-card.js ./local/homeassistant/www/layout-card.js
+ln $base/config/dashboards/default.yaml ./local/homeassistant/dashboards/default.yaml
 
 cp $base/local/certs/ca.crt ./local/homeassistant/certs/ca.crt
 cp $base/local/certs/client.crt ./local/homeassistant/certs/client.crt

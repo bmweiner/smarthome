@@ -1,0 +1,265 @@
+# placeholders
+style_time: &style_time
+  card_mod:
+    style: |
+      ha-card { 
+        font-size: 1.5em;
+        text-align: center;
+      }
+
+style_bike: &style_bike
+  card_mod:
+    style:
+      ha-markdown$: |
+        strong { 
+          font-size: 1.75em;
+          {% if state_attr('sensor.bikes', '3').bikes < 4 %}
+          color: red;
+          {% endif %}
+        }
+      .: "ha-card {font-size: 1.5em; text-align: center;}"
+
+# dashboard views
+views:
+  - type: custom:layout-card
+    theme: Backend-selected
+    title: main
+    path: main
+    layout_type: grid
+    layout:
+      grid-template-columns: 5% 45% 45% 5%
+      grid-template-rows: auto
+      grid-template-areas: |
+        "lpad left right rpad"
+    cards:
+      - type: custom:gap-card
+        view_layout:
+          grid:area: lpad
+      - type: vertical-stack
+        cards:
+          # date time        
+          - type: horizontal-stack
+            cards:
+            - type: markdown
+              <<: *style_time
+              content: |
+                {% set ts = as_timestamp(states('sensor.date_time_iso')) %}
+                # {{ ts | timestamp_custom('%a %b %-d') }}
+            - type: markdown
+              <<: *style_time
+              content: |
+                {% set ts = as_timestamp(states('sensor.date_time_iso')) %}              
+                # {{ ts | timestamp_custom('%-I:%M %p') }}
+          # weather forecast
+          - type: horizontal-stack
+            cards:
+            - type: vertical-stack
+              cards:
+              - type: markdown
+                content: |-
+                  # <ha-icon icon="mdi:weather-{{ states('weather.home') }}"></ha-icon> {{state_attr('weather.home', 'temperature')}} °F
+                card_mod:
+                  style: |
+                    ha-card {
+                      text-align: center;
+                      font-size: 1.5em;
+                      {% set t = state_attr('weather.home', 'temperature') %}
+                      {% if t > 85 %}
+                        background-color: red;
+                      {% elif t > 75 %}
+                        background-color: orange;
+                      {% elif t > 55 %}
+                        background-color: green;
+                      {% elif t > 45 %}
+                        background-color: blue;
+                      {% else %}
+                        background-color: purple;
+                      {% endif %}
+                    }
+              - type: markdown
+                content: |-
+                  {% set t = state_attr('weather.home', 'temperature') %}
+                  {% set f1 = state_attr('weather.home', 'forecast')[0] %}
+                  {% set f2 = state_attr('weather.home', 'forecast')[1] %}
+                  {% if f1.daytime %}
+                  ### H: {{ f1.temperature }}°  L: {{ f2.temperature }}°
+                  {% else %}
+                  ### H: {{ t }}°  L: {{ f2.temperature }}°
+                  {% endif %}
+                card_mod:
+                  style: |
+                    ha-card {
+                      text-align: center;
+                      font-size: 1.5em;
+                    }                    
+            # weather detailed
+            - type: markdown
+              content: |
+                {% set pop1 = state_attr('weather.home', 'forecast')[0].precipitation_probability %}
+                {% set pop2 = state_attr('weather.home', 'forecast')[1].precipitation_probability %}
+                {% set wspeed = state_attr('weather.home', 'wind_speed') %}
+                {% set wunit = state_attr('weather.home', 'wind_speed_unit') %}
+                {% set dawn = as_timestamp(state_attr('sun.sun', 'next_dawn')) %}
+                {% set dusk = as_timestamp(state_attr('sun.sun', 'next_dusk')) %}
+                <ha-icon icon="mdi:water"></ha-icon> {{ pop1 }}% / {{ pop2 }}%
+
+                <ha-icon icon="mdi:weather-windy"></ha-icon> {{ wspeed | round }} {{ wunit }}
+                
+                <ha-icon icon="mdi:weather-sunset-up"></ha-icon> {{ dawn | timestamp_custom('%-I:%M %p') }} / <ha-icon icon="mdi:weather-sunset-down"></ha-icon> {{ dusk | timestamp_custom('%-I:%M %p') }}
+              card_mod:
+                style: |
+                  ha-card {
+                    font-size: 1.4em;
+                  }
+          # bikes
+          - type: horizontal-stack
+            cards:
+            - type: markdown
+              # <<: *style_bike
+              content: |
+                {{ state_attr('sensor.bikes', '1').alias }}
+
+                **{{ state_attr('sensor.bikes', '1').bikes }}**
+              card_mod:
+                style:
+                  ha-markdown$: |
+                    strong { 
+                      font-size: 1.75em;
+                      {% if state_attr('sensor.bikes', '1').bikes < 4 %}
+                      color: red;
+                      {% endif %}
+                    }
+                  .: "ha-card {font-size: 1.5em; text-align: center;}"                
+            - type: markdown
+              content: |
+                {{ state_attr('sensor.bikes', '2').alias }}
+
+                **{{ state_attr('sensor.bikes', '2').bikes }}**
+              card_mod:
+                style:
+                  ha-markdown$: |
+                    strong { 
+                      font-size: 1.75em;
+                      {% if state_attr('sensor.bikes', '2').bikes < 4 %}
+                      color: red;
+                      {% endif %}
+                    }
+                  .: "ha-card {font-size: 1.5em; text-align: center;}"                
+
+            - type: markdown
+              content: |
+                {{ state_attr('sensor.bikes', '3').alias }}
+
+                **{{ state_attr('sensor.bikes', '3').bikes }}**
+              card_mod:
+                style:
+                  ha-markdown$: |
+                    strong { 
+                      font-size: 1.75em;
+                      {% if state_attr('sensor.bikes', '3').bikes < 4 %}
+                      color: red;
+                      {% endif %}
+                    }
+                  .: "ha-card {font-size: 1.5em; text-align: center;}"                
+
+        view_layout:
+          grid-area: left
+      - type: vertical-stack
+        cards:
+        # scenes
+        - type: horizontal-stack
+          cards:
+            - type: button
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data:
+                  entity_id: scene.daytime
+              entity: scene.daytime
+              icon_height: 50px
+            - type: button
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data:
+                  entity_id: scene.nightime
+              entity: scene.nightime
+              icon_height: 40px
+            - type: button
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data:
+                  entity_id: scene.goodbye
+              entity: scene.goodbye
+              icon_height: 50px
+        # lights
+        - type: horizontal-stack
+          cards:
+          - type: entities
+            entities:
+            - entity: light.entryway_light
+              name: Entryway
+            - entity: light.kitchen_light
+              name: Kitchen
+            - entity: light.counter_light
+              name: Counter
+            - entity: light.bar_light
+              name: Bar
+            - entity: light.living_room_light
+              name: Living Room
+            state_color: true
+            title: Living
+          - type: entities
+            entities:
+            - entity: light.bedroom_light
+              name: Bedroom
+            - entity: light.headboard_light
+              name: Headboard
+            - entity: light.bathroom_light
+              name: Bathroom
+            - entity: light.hallway_light
+              name: Hallway
+            state_color: true
+            title: Bedroom
+        - type: horizontal-stack
+          cards:
+          # devices
+          - type: horizontal-stack
+            cards:
+            - type: button
+              entity: switch.coffee_switch
+              show_name: true
+              show_icon: true
+              tap_action:
+                action: toggle
+              icon: mdi:coffee-maker
+              name: Coffee
+              icon_height: 40px
+            - type: button
+              entity: light.printer_switch
+              show_name: true
+              show_icon: true
+              tap_action:
+                action: toggle
+              icon: mdi:printer
+              name: Printer
+              icon_height: 40px
+          # sensors
+          - type: entities
+            entities:
+              - entity: sensor.bedroom_temperature
+                name: Bedroom
+              - entity: sensor.entryway_temperature
+                name: Entryway
+              - entity: binary_sensor.kitchen_water_sensor
+                name: Kitchen
+              - entity: binary_sensor.laundry_water_sensor
+                name: Laundry
+            state_color: true
+
+        view_layout:
+          grid-area: right
+      - type: custom:gap-card
+        view_layout:
+          grid:area: rpad
