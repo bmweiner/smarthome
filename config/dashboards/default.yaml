@@ -84,7 +84,7 @@ views:
                   {% if f1.daytime %}
                   ### H: {{ f1.temperature }}°  L: {{ f2.temperature }}°
                   {% else %}
-                  ### H: {{ t }}°  L: {{ f2.temperature }}°
+                  ### H: {{ t }}°  L: {{ f1.temperature }}°
                   {% endif %}
                 card_mod:
                   style: |
