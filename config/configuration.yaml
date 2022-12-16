@@ -3,6 +3,7 @@ homeassistant:
   name: Home
   unit_system: imperial
   time_zone: America/New_York
+  currency: USD
   customize: !include customize.yaml
 
 # integrations 
@@ -28,11 +29,7 @@ recorder:
   purge_keep_days: 5
   exclude:
     entities:
-      - sensor.time
-      - sensor.date
-      - sensor.date_time
-      - sensor.date_formatted
-      - sensor.time_formatted
+      - sensor.date_time_iso
 
 logger:
   default: info
@@ -85,6 +82,15 @@ notify:
 #   client_key: /config/certs/client.key
 #   client_cert: /config/certs/client.crt
 
+mqtt:
+  sensor:
+  - name: "Water Meter"
+    state_topic: "util/water"
+    unit_of_measurement: "gal"
+    device_class: water
+    state_class: total_increasing
+    force_update: true
+
 emulated_hue:
   listen_port: 80
   expose_by_default: true
@@ -110,6 +116,13 @@ august:
   login_method: !secret august_login_method
   username: !secret august_username
   password: !secret august_password
+
+utility_meter:
+  daily_water:
+    name: Daily Water
+    source: sensor.water_meter
+    cycle: daily
+    delta_values: true
 
 # includes
 sensor: !include sensor.yaml

@@ -82,7 +82,7 @@ views:
                   {% set f1 = state_attr('weather.home', 'forecast')[0] %}
                   {% set f2 = state_attr('weather.home', 'forecast')[1] %}
                   {% if f1.daytime %}
-                  ### H: {{ f1.temperature }}°  L: {{ f2.temperature }}°
+                  ### H: {{ f1.temperature }}°   L: {{ f2.temperature }}°
                   {% else %}
                   ### H: {{ t }}°  L: {{ f1.temperature }}°
                   {% endif %}
@@ -101,15 +101,22 @@ views:
                 {% set wunit = state_attr('weather.home', 'wind_speed_unit') %}
                 {% set dawn = as_timestamp(state_attr('sun.sun', 'next_dawn')) %}
                 {% set dusk = as_timestamp(state_attr('sun.sun', 'next_dusk')) %}
-                <ha-icon icon="mdi:water"></ha-icon> {{ pop1 }}% / {{ pop2 }}%
+                <ha-icon icon="mdi:water"></ha-icon> {{ pop1 }}%   <ha-icon icon="mdi:water"></ha-icon> {{ pop2 }}%
 
                 <ha-icon icon="mdi:weather-windy"></ha-icon> {{ wspeed | round }} {{ wunit }}
                 
-                <ha-icon icon="mdi:weather-sunset-up"></ha-icon> {{ dawn | timestamp_custom('%-I:%M %p') }} / <ha-icon icon="mdi:weather-sunset-down"></ha-icon> {{ dusk | timestamp_custom('%-I:%M %p') }}
+                <ha-icon icon="mdi:weather-sunset-up"></ha-icon> {{ dawn | timestamp_custom('%-I:%M %p') }}   <ha-icon icon="mdi:weather-sunset-down"></ha-icon> {{ dusk | timestamp_custom('%-I:%M %p') }}
               card_mod:
                 style: |
                   ha-card {
-                    font-size: 1.4em;
+                    font-size: 1.5em;
+                    {% set pop1 = state_attr('weather.home', 'forecast')[0].precipitation_probability %}
+                    {% set pop2 = state_attr('weather.home', 'forecast')[1].precipitation_probability %}
+                    {% if pop1 > 0 %}
+                    background-color: mediumblue;
+                    {% elif pop2 > 0 %}
+                    background-color: mediumblue;
+                    {% endif %}
                   }
           # bikes
           - type: horizontal-stack
@@ -160,7 +167,44 @@ views:
                       color: red;
                       {% endif %}
                     }
-                  .: "ha-card {font-size: 1.5em; text-align: center;}"                
+                  .: "ha-card {font-size: 1.5em; text-align: center;}"        
+          - type: horizontal-stack
+            cards:
+            # people home/away
+            - type: glance
+              show_name: false
+              show_icon: true
+              show_state: true
+              entities:
+                - entity: person.ben
+                  card_mod:
+                    style: |
+                      :host > state-badge {
+                        width: 75px;
+                        height: 75px;
+                      }
+                - entity: person.ivy
+                  card_mod:
+                    style: |
+                      :host > state-badge {
+                        width: 75px;
+                        height: 75px;
+                      }
+              card_mod:
+                style: |
+                  ha-card { 
+                    font-size: 1.5em;
+                  }
+            - type: markdown
+              content: |
+                <ha-icon icon="mdi:water-pump"></ha-icon> {{ states('sensor.daily_water') }} gal
+
+                <ha-icon icon="mdi:door"></ha-icon> {{ states('lock.front_door') }}
+              card_mod:
+                style: |
+                  ha-card {
+                    font-size: 1.5em;
+                  }
 
         view_layout:
           grid-area: left
@@ -254,8 +298,22 @@ views:
                 name: Entryway
               - entity: binary_sensor.kitchen_water_sensor
                 name: Kitchen
+                card_mod:
+                  style: |
+                    :host {
+                      {% if states('binary_sensor.kitchen_water_sensor') == 'unavailable' %}
+                      color: red;
+                      {% endif %}
+                    }
               - entity: binary_sensor.laundry_water_sensor
                 name: Laundry
+                card_mod:
+                  style: |
+                    :host {
+                      {% if states('binary_sensor.laundry_water_sensor') == 'unavailable' %}
+                      color: red;
+                      {% endif %}
+                    }
             state_color: true
 
         view_layout:
