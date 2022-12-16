@@ -20,6 +20,8 @@ light.kitchen_light:
   friendly_name: Kitchen Light
 light.bar_light:
   friendly_name: Bar Light
+switch.holiday_light:
+  friendly_name: Holiday Light
 
 light.printer_switch:
   friendly_name: Printer
