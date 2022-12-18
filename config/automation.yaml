@@ -4,6 +4,9 @@
     - platform: state
       entity_id: person.ben
       to: "home"
+    - platform: state
+      entity_id: person.ivy
+      to: "home"      
   action:
     - service: alarm_control_panel.alarm_disarm
       entity_id: alarm_control_panel.home_alarm
@@ -13,6 +16,17 @@
     - platform: state
       entity_id: person.ben
       to: "not_home"
+    - platform: state
+      entity_id: person.ivy
+      to: "not_home"
+  condition:
+  - and:
+    - condition: state
+      entity_id: person.ben
+      state: "not_home"
+    - condition: state
+      entity_id: person.ivy
+      state: "not_home"
   action:
     - service: alarm_control_panel.alarm_arm_away
       entity_id: alarm_control_panel.home_alarm

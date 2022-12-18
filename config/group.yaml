@@ -12,6 +12,7 @@ all_lights:
     - light.living_room_light
     - light.kitchen_light
     - light.bar_light
+    - switch.holiday_light
     
 welcome_lights:
   name: Welcome Lights

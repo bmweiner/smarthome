@@ -47,8 +47,8 @@ tts:
 alarm_control_panel:
   - platform: manual
     name: Home Alarm
-    delay_time: 1
-    arming_time: 1
+    delay_time: 60
+    arming_time: 30
     disarm_after_trigger: true
 
 notify:
