@@ -200,6 +200,8 @@ views:
                 <ha-icon icon="mdi:water-pump"></ha-icon> {{ states('sensor.daily_water') }} gal
 
                 <ha-icon icon="mdi:door"></ha-icon> {{ states('lock.front_door') }}
+
+                <ha-icon icon="mdi:alarm-light"></ha-icon> {{ states('alarm_control_panel.home_alarm') }}
               card_mod:
                 style: |
                   ha-card {
