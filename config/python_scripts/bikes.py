@@ -8,7 +8,7 @@ docks = {
         'rank': 1,
         'alias': 'Whole Foods',
     },
-    '14th & Rhode Island Ave NW':{
+    '14th St & Rhode Island Ave NW':{
         'rank': 2,
         'alias': 'Jinya',
     },
