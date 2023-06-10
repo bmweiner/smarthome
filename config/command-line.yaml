@@ -1,0 +1,19 @@
+- sensor:
+    name: wiki_today
+    command: "python3 /config/python_scripts/wiki_today.py"
+    scan_interval: 86400
+
+- sensor:
+    name: woa
+    command: "python3 /config/python_scripts/woa.py"
+    scan_interval: 86400
+
+- sensor:
+    name: bikes
+    command: "python3 /config/python_scripts/bikes.py"
+    scan_interval: 300
+    json_attributes:
+      - "1"
+      - "2"
+      - "3"
+      - "4"

@@ -10,13 +10,14 @@ services:
     network_mode: host
     volumes:
       - ./local/homeassistant:/config
-      # - ./local/homeassistant/configuration.yaml:/config/configuration.yaml
-      # - ./local/homeassistant/automation.yaml:/config/automation.yaml
-      # - ./local/homeassistant/customize.yaml:/config/customize.yaml
-      # - ./local/homeassistant/group.yaml:/config/group.yaml
-      # - ./local/homeassistant/scene.yaml:/config/scene.yaml
-      # - ./local/homeassistant/script.yaml:/config/script.yaml
-      # - ./local/homeassistant/sensor.yaml:/config/sensor.yaml
+      - ./local/homeassistant/configuration.yaml:/config/configuration.yaml
+      - ./local/homeassistant/automation.yaml:/config/automation.yaml
+      - ./local/homeassistant/customize.yaml:/config/customize.yaml
+      - ./local/homeassistant/group.yaml:/config/group.yaml
+      - ./local/homeassistant/scene.yaml:/config/scene.yaml
+      - ./local/homeassistant/script.yaml:/config/script.yaml
+      - ./local/homeassistant/sensor.yaml:/config/sensor.yaml
+      - ./local/homeassistant/command-line.yaml:/config/command-line.yaml
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/ttyUSB1:/dev/ttyUSB1

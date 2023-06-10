@@ -4,6 +4,7 @@ homeassistant:
   unit_system: imperial
   time_zone: America/New_York
   currency: USD
+  country: US
   customize: !include customize.yaml
 
 # integrations 
@@ -112,10 +113,10 @@ homekit:
 #   project_id: !secret nest_project_id
 #   subscriber_id: !secret nest_subscriber_id
 
-august:
-  login_method: !secret august_login_method
-  username: !secret august_username
-  password: !secret august_password
+# august:
+#   login_method: !secret august_login_method
+#   username: !secret august_username
+#   password: !secret august_password
 
 utility_meter:
   daily_water:
@@ -126,6 +127,7 @@ utility_meter:
 
 # includes
 sensor: !include sensor.yaml
+command_line: !include command-line.yaml
 group: !include group.yaml
 scene: !include scene.yaml
 automation: !include automation.yaml

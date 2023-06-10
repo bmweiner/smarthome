@@ -11,6 +11,7 @@ mkdir -p ./local/homeassistant/python_scripts
 mkdir -p ./local/homeassistant/www
 mkdir -p ./local/homeassistant/dashboards
 
+ln -sf $base/config/command-line.yaml ./local/homeassistant/command-line.yaml
 ln -sf $base/config/configuration.yaml ./local/homeassistant/configuration.yaml
 ln -sf $base/config/automation.yaml ./local/homeassistant/automation.yaml
 ln -sf $base/config/customize.yaml ./local/homeassistant/customize.yaml
