@@ -1,0 +1,18 @@
+- trigger:
+    - platform: time_pattern
+      hours: "/1"
+    - platform: homeassistant
+      event: start
+  action:
+    - service: weather.get_forecasts
+      data:
+        type: twice_daily
+      target:
+        entity_id: weather.home
+      response_variable: twice_daily
+  sensor:
+    - name: forecast
+      state: "{{ states('weather.home') }}"
+      icon: mdi:weather-cloudy
+      attributes:
+        forecast: "{{ twice_daily['weather.home'].forecast }}"

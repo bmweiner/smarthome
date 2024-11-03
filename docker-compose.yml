@@ -17,6 +17,7 @@ services:
       - ./local/homeassistant/scene.yaml:/config/scene.yaml
       - ./local/homeassistant/script.yaml:/config/script.yaml
       - ./local/homeassistant/sensor.yaml:/config/sensor.yaml
+      - ./local/homeassistant/template.yaml:/config/template.yaml
       - ./local/homeassistant/command-line.yaml:/config/command-line.yaml
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0

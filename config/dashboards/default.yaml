@@ -79,9 +79,9 @@ views:
               - type: markdown
                 content: |-
                   {% set t = state_attr('weather.home', 'temperature') %}
-                  {% set f1 = state_attr('weather.home', 'forecast')[0] %}
-                  {% set f2 = state_attr('weather.home', 'forecast')[1] %}
-                  {% if f1.daytime %}
+                  {% set f1 = state_attr('sensor.forecast', 'forecast')[0] %}
+                  {% set f2 = state_attr('sensor.forecast', 'forecast')[1] %}
+                  {% if f1.is_daytime %}
                   ### H: {{ f1.temperature }}°   L: {{ f2.temperature }}°
                   {% else %}
                   ### H: {{ t }}°  L: {{ f1.temperature }}°
@@ -95,8 +95,8 @@ views:
             # weather detailed
             - type: markdown
               content: |
-                {% set pop1 = state_attr('weather.home', 'forecast')[0].precipitation_probability %}
-                {% set pop2 = state_attr('weather.home', 'forecast')[1].precipitation_probability %}
+                {% set pop1 = state_attr('sensor.forecast', 'forecast')[0].precipitation_probability %}
+                {% set pop2 = state_attr('sensor.forecast', 'forecast')[1].precipitation_probability %}
                 {% set wspeed = state_attr('weather.home', 'wind_speed') %}
                 {% set wunit = state_attr('weather.home', 'wind_speed_unit') %}
                 {% set dawn = as_timestamp(state_attr('sun.sun', 'next_dawn')) %}
@@ -110,8 +110,8 @@ views:
                 style: |
                   ha-card {
                     font-size: 1.5em;
-                    {% set pop1 = state_attr('weather.home', 'forecast')[0].precipitation_probability %}
-                    {% set pop2 = state_attr('weather.home', 'forecast')[1].precipitation_probability %}
+                    {% set pop1 = state_attr('sensor.forecast', 'forecast')[0].precipitation_probability %}
+                    {% set pop2 = state_attr('sensor.forecast', 'forecast')[1].precipitation_probability %}
                     {% if pop1 > 0 %}
                     background-color: mediumblue;
                     {% elif pop2 > 0 %}

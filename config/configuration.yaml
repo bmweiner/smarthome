@@ -126,6 +126,7 @@ utility_meter:
 
 # includes
 sensor: !include sensor.yaml
+template: !include template.yaml
 command_line: !include command-line.yaml
 group: !include group.yaml
 scene: !include scene.yaml
