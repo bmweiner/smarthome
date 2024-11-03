@@ -283,7 +283,7 @@ views:
               name: Coffee
               icon_height: 40px
             - type: button
-              entity: light.printer_switch
+              entity: switch.printer_switch
               show_name: true
               show_icon: true
               tap_action:

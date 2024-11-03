@@ -27,4 +27,4 @@ tts_sonos:
   icon: mdi:text-to-speech
   variables:
     mediaplayer_volume_level: '{{ state_attr(tts_entity,''volume_level'') }}'
-  mode: single
+  mode: restart

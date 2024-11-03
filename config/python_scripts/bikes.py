@@ -1,43 +1,43 @@
 import requests
 import json
 
-url = "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_Bikes_Trails_WebMercator/MapServer/5/query"
+# url = "https://gbfs.capitalbikeshare.com/gbfs/en/station_information.json"
+url = "https://gbfs.capitalbikeshare.com/gbfs/en/station_status.json"
 
-docks = {
-    '15th & P St NW':{
-        'rank': 1,
-        'alias': 'Whole Foods',
+
+clauses =[
+    {
+        "station_id":"0824791a-1f3f-11e7-bf6b-3863bb334450",
+        "name":"15th & P St NW",
+        "alias":"Whole Foods",
     },
-    '14th St & Rhode Island Ave NW':{
-        'rank': 2,
-        'alias': 'Jinya',
+    {
+        "station_id":"08247a21-1f3f-11e7-bf6b-3863bb334450",
+        "name":"14th St & Rhode Island Ave NW",
+        "alias":"Jinya",
     },
-    '14th & Q St NW':{
-        'rank': 3,
-        'alias': 'Etto',
+    {
+        "station_id":"a7b98322-bdbb-421e-b2e4-1bb42ef9d01f",
+        "name":"14th & Q St NW",
+        "alias":"Etto",
     },
-    '14th & R St NW':{
-        'rank': 4,
-        'alias': 'Red Light',
-    },
-}
+    {
+        "station_id":"0824799f-1f3f-11e7-bf6b-3863bb334450",
+        "name":"14th & R St NW",
+        "alias":"Red Light",
+    }
+]
 
-where = ' '.join(["NAME='{}' OR".format(s) for s in docks.keys()])[:-3]
+response = requests.get(url)
+data = json.loads(response.content)
 
-params = {
-    "where":where,
-    "returnGeometry":"false",
-    "outFields":"NAME,NUM_BIKES_AVAILABLE",
-    "f":"json",
-}
+stations = data.get("data", {}).get("stations")
+output = {}
 
-response = requests.get(url, params)
-data = json.loads(response.content)['features']
+for station in stations:
+    for i, clause in enumerate(clauses):
+        if station.get("station_id") == clause.get("station_id"):
+            clause['bikes'] = station.get("num_bikes_available")
+            output[i+1] = clause
 
-# print alias / bikes
-for row in data:
-    key = row['attributes']['NAME']
-    docks[key]['bikes'] = int(row['attributes']['NUM_BIKES_AVAILABLE'])
-
-data = {v['rank'] : v for k,v in docks.items()}
-print(json.dumps(data))
+print(json.dumps(output))

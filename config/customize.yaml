@@ -23,7 +23,7 @@ light.bar_light:
 switch.holiday_light:
   friendly_name: Holiday Light
 
-light.printer_switch:
+switch.printer_switch:
   friendly_name: Printer
 switch.coffee_switch:
   friendly_name: Coffee

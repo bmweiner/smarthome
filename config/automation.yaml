@@ -204,7 +204,7 @@
     at: '09:00:00'
   action:
     service: homeassistant.turn_on
-    entity_id: light.printer_switch
+    entity_id: switch.printer_switch
 
 - alias: printer_off
   trigger:
@@ -212,7 +212,7 @@
     at: '21:00:00'
   action:
     service: homeassistant.turn_off
-    entity_id: light.printer_switch
+    entity_id: switch.printer_switch
 
 # coffee
 - alias: coffee_on

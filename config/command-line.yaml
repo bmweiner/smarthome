@@ -1,12 +1,12 @@
 - sensor:
     name: wiki_today
     command: "python3 /config/python_scripts/wiki_today.py"
-    scan_interval: 86400
+    scan_interval: 7200
 
 - sensor:
     name: woa
     command: "python3 /config/python_scripts/woa.py"
-    scan_interval: 86400
+    scan_interval: 3600
 
 - sensor:
     name: bikes

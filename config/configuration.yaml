@@ -21,10 +21,9 @@ lovelace:
       filename: dashboards/default.yaml
 
 frontend:
-  javascript_version: latest
   extra_module_url:
-    - /local/card-mod.js
     - /local/layout-card.js
+    - /local/card-mod.js
 
 recorder:
   purge_keep_days: 5
